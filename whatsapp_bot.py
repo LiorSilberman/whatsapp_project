@@ -19,10 +19,10 @@ ask = input("whatsapp is ready? ")
 
 # send image + message
 def send_image_with_msg(name, image, msg):
-
     # find user contact
     find_user = driver.find_element(By.XPATH, '//div[@title = "תיבת טקסט להזנת החיפוש"]')
     find_user.click()
+    find_user.clear()
     find_user.send_keys(name)
     sleep(1)
     find_user = driver.find_element(By.XPATH, '//span[@title = "{}"]'.format(name))
@@ -45,6 +45,7 @@ def send_msg(name, msg):
     # find user contact
     find_user = driver.find_element(By.XPATH, '//*[@id="side"]/div[1]/div/div/div[2]/div/div[2]')
     find_user.click()
+    find_user.clear()
     find_user.send_keys(name)
     sleep(1)
     find_user = driver.find_element(By.XPATH, '//span[@title = "{}"]'.format(name))
