@@ -40,7 +40,11 @@ def send_msg(name, msg):
     # find user contact
     find_user = driver.find_element(By.XPATH, '//div[@title = "תיבת טקסט להזנת החיפוש"]')
     find_user.click()
-    find_user.send_keys(name + Keys.ENTER)
+    find_user.send_keys(name)
+    sleep(1)
+    find_user = driver.find_element(By.XPATH, '//span[@title = "{}"]'.format(name))
+    find_user.click()
+    sleep(2)
 
     # write message and send
     msg_box = driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]')
@@ -54,7 +58,7 @@ def main():
         names = []
         for name in names_txt:
             names.append(name)
-    names_txt.close
+    names_txt.close()
     
     # image
     image_to_send = "add path to image here"
