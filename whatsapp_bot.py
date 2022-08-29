@@ -2,9 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from time import sleep
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-
 
 # options: using cookies to skip QR code scaning
 options = webdriver.ChromeOptions()
@@ -15,7 +12,6 @@ driver.maximize_window()
 
 # continue only when whatsapp is ready
 ask = input("whatsapp is ready? ")
-
 
 # send image + message
 def send_image_with_msg(name, image, msg):
@@ -39,7 +35,6 @@ def send_image_with_msg(name, image, msg):
     # add message and send
     msg_box.send_keys(msg + Keys.ENTER)
 
-
 # send message only
 def send_msg(name, msg):
     # find user contact
@@ -56,8 +51,7 @@ def send_msg(name, msg):
     msg_box = driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]')
     msg_box.send_keys(msg + Keys.ENTER)
 
-
-
+    
 def main():
     # read contacts list name by name
     with open("users.txt", encoding="utf8") as names_txt:
