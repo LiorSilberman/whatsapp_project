@@ -1,4 +1,5 @@
 from selenium import webdriver
+import chromedriver_autoinstaller
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from time import sleep
@@ -8,14 +9,15 @@ import tkinter as tk
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
-
+import openpyxl
 import copy
+
+
+
 
 # send image + message
 def send_image_with_msg():
-    with open("contacts.txt", encoding="utf8") as names_txt:
-        names = [line.strip() for line in names_txt]
-    names_txt.close()
+    names = contant_list()
     
     # message + image
     msg = pyperclip.copy(str(message.get()))
@@ -43,13 +45,11 @@ def send_image_with_msg():
         act = ActionChains(driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
         # msg_box.send_keys(Keys.ENTER)
-        sleep(1)
+        sleep(2)
 
 # send message only
 def send_msg():
-    with open("contacts.txt", encoding="utf8") as names_txt:
-        names = [line.strip() for line in names_txt]
-    names_txt.close()
+    names = contant_list()
     
     # message
     msg = pyperclip.copy(str(message.get()))
@@ -64,17 +64,21 @@ def send_msg():
         find_chat = driver.find_element(By.XPATH, '//span[@title = "{}"]'.format(name))
         find_chat.click()
         
+        
         # write message and send
         msg_box = driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]')
+        
         act = ActionChains(driver)
+        # act.key_down(keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).perform()
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
         # msg_box.send_keys(Keys.ENTER)
         find_user.clear()
-        sleep(1)
+        sleep(2)
 
 
 def open_whatsapp():
     global driver
+    chromedriver_autoinstaller.install()
     driver = webdriver.Chrome()
     driver.get("https://web.whatsapp.com/")
     driver.maximize_window()
@@ -89,6 +93,16 @@ def switch():
 def browse():
     root.filename = filedialog.askopenfilename(initialdir="C:/", filetypes=(("png files", ".jpg"),("all files", "*.*")))
     image_input.set(str(root.filename))
+
+def contant_list():
+    # Define variable to load the dataframe
+    dataframe = openpyxl.load_workbook("contacts.xlsx")
+     
+    # Define variable to read sheet
+    dataframe1 = dataframe.active
+    names = [dataframe1[row+1][0].value for row in range(1, dataframe1.max_row)]
+    print(names)
+    return names
 
 
 #GUI
